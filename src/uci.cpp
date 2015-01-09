@@ -109,7 +109,7 @@ namespace {
 
   void go(const Position& pos, istringstream& is) {
 
-    Search::LimitsType limits;
+    Search::LimitsType limits = Search::LimitsType();
     string token;
 
     while (is >> token)

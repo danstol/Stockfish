@@ -92,8 +92,8 @@ const char* Defaults[] = {
 
 void benchmark(const Position& current, istream& is) {
 
+  Search::LimitsType limits = Search::LimitsType();
   string token;
-  Search::LimitsType limits;
   vector<string> fens;
 
   // Assign default values to missing arguments

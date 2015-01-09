@@ -32,6 +32,8 @@ TranspositionTable TT; // Our global transposition table
 
 void TranspositionTable::resize(size_t mbSize) {
 
+  static const unsigned CacheLineSize = 64;
+
   size_t newClusterCount = size_t(1) << msb((mbSize * 1024 * 1024) / sizeof(TTCluster));
 
   if (newClusterCount == clusterCount)
@@ -40,7 +42,7 @@ void TranspositionTable::resize(size_t mbSize) {
   clusterCount = newClusterCount;
 
   free(mem);
-  mem = calloc(clusterCount * sizeof(TTCluster) + CACHE_LINE_SIZE - 1, 1);
+  mem = calloc(clusterCount * sizeof(TTCluster) + CacheLineSize - 1, 1);
 
   if (!mem)
   {
@@ -49,7 +51,7 @@ void TranspositionTable::resize(size_t mbSize) {
       exit(EXIT_FAILURE);
   }
 
-  table = (TTCluster*)((uintptr_t(mem) + CACHE_LINE_SIZE - 1) & ~(CACHE_LINE_SIZE - 1));
+  table = (TTCluster*)((uintptr_t(mem) + CacheLineSize - 1) & ~(CacheLineSize - 1));
 }
 
 
